@@ -1,11 +1,16 @@
 // import express
 const express = require('express');
 const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt-nodejs');
+const cors = require('cors');
 
 
 
 // create app
 const app = express();
+
+// Cross-origin resource sharing
+app.use(cors());
 
 // body parser for json data being sent from the front end
 app.use(bodyParser.json());
@@ -35,6 +40,13 @@ const database = {
       joined: new Date()
 
     }
+  ],
+  login: [
+    {
+      id: '123',
+      hash: '',
+      email: 'mike@gmail.com'
+    }
   ]
 };
 
@@ -58,6 +70,11 @@ app.post('/signin', (req, res) => {
 // register
 app.post('/register', (req, res) => {
   const {email, name, password} = req.body;
+
+  // bcrypt.hash(password, null, null, function(err, hash) {
+  //   console.log(hash);
+  // });
+
   database.users.push({
     id: '3',
     name: name,
@@ -106,6 +123,18 @@ app.post('/image', (req, res) => {
     res.status(400).json('not found');
   }
 });
+
+// bcrypt.hash("bacon", null, null, function(err, hash) {
+//   // Store hash in your password DB.
+// });
+
+// Load hash from your password DB.
+// bcrypt.compare("bacon", hash, function(err, res) {
+//   // res == true
+// });
+// bcrypt.compare("veggies", hash, function(err, res) {
+//   // res = false
+// });
 
 // create port
 app.listen(3000, () => {
