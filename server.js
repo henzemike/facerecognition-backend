@@ -60,7 +60,7 @@ app.get('/', (req, res) => {
 app.post('/signin', (req, res) => {
   if (req.body.email === database.users[0].email && req.body.password === database.users[0].password) {
     // using res.json will create a json string to send to the front end
-    res.json('success');
+    res.json(database.users[0]);
   } else {
     // error handling 
     res.status(400).json('error loggin in');
@@ -79,7 +79,6 @@ app.post('/register', (req, res) => {
     id: '3',
     name: name,
     email: email,
-    password: password,
     entries: 0,
     joined: new Date()
   });
@@ -106,7 +105,7 @@ app.get('/profile/:id', (req, res) => {
 });
 
 // update users entry count with image submit
-app.post('/image', (req, res) => {
+app.put('/image', (req, res) => {
   const {id} = req.body;
   let found = false;
   // looping through users in database checking if user.id matches the id sent back
